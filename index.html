@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeFire Image Gallery</title>
+    <style>
+        :root {
+            --primary: #ff5722;
+            --secondary: #607d8b;
+            --dark: #263238;
+            --light: #eceff1;
+            --accent: #ff9800;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #121212;
+            color: var(--light);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--dark), var(--secondary));
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://dl.gmc.freefiremobile.com/common/OB50/CSH/BigEvent/T_HomeRoom_NB02_D.png') center/cover;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            aspect-ratio: 1/1;
+            background-color: var(--dark);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+        
+        .gallery-item .overlay p {
+            color: white;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FreeFire Image Gallery</h1>
+        <p>Explore the latest assets from FreeFire OB50</p>
+    </header>
+    
+    <div class="container">
+        <div class="gallery" id="gallery">
+            <!-- Images will be inserted here by JavaScript -->
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2023 FreeFire Image Gallery | All images property of Garena FreeFire
+    </footer>
+    
+    <script>
+        const imageData = {
+            "images": [
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/BigEvent/T_HomeRoom_NB02_D.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/BigEvent/UIFX_HD_Logo_NB2_Sys.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/BigEvent/T_HomeRoom_SF50_GP_D.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/BigEvent/FF_UI_SF50_Sys_Logo.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/BigEvent/T_HomeRoom_Diwali_D.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/BigEvent/FF_UI_Diwali25_Sys_Logo.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/FF_UI_PrimeGift_BG_A.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/FF_UI_PrimeEmail_Gift_BG_A.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/Prime/Prime_DoublePoints_ProgressBar.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/Prime/Prime_DoublePoints_ProgressBarBg.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask01.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask_Front.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask_Front_01.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask02.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask_Front_02.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask03.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask_Front_03.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Mask_Front_04.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Invitation01.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Invitation02.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Invitation03.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_RankingWndBg02.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_01.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_02.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_03.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_04.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_05.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_06.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_07.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_08.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_09.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/CSPeak/Official/CSPeakTournament_Ranking_10.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/FF_UI_Wishlist_Store_A.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/FF_UI_QucikGift_BG_A.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/FF_UI_Gift_BG_A.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/FF_UI_EmailGift_BG_A.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_01.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_02.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_03.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_04.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_05.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_06.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_07.png",
+                "https://dl.gmc.freefiremobile.com/common/OB50/CSH/GIFT/UI_Prime_QualitySlotBg_08.png"
+            ]
+        };
+
+        const gallery = document.getElementById('gallery');
+        
+        // Function to create gallery items
+        function createGallery() {
+            imageData.images.forEach((imageUrl, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `FreeFire Image ${index + 1}`;
+                img.loading = 'lazy';
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                
+                const urlText = document.createElement('p');
+                urlText.textContent = imageUrl;
+                
+                overlay.appendChild(urlText);
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(overlay);
+                gallery.appendChild(galleryItem);
+            });
+        }
+        
+        // Initialize the gallery when the page loads
+        window.addEventListener('DOMContentLoaded', createGallery);
+    </script>
+</body>
+</html>
